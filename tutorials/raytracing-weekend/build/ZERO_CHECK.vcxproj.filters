@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\danie\Documents\Daniel\RC\Impossible\mc-voxel\tutorials\raytracing-weekend\build\CMakeFiles\8786e22ef6e84689b4f8282ef9107f97\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{0375247D-2CDB-3D24-A045-637A4C6975AC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

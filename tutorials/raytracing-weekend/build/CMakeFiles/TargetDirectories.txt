@@ -1,0 +1,3 @@
+C:/Users/danie/Documents/Daniel/RC/Impossible/mc-voxel/tutorials/raytracing-weekend/build/CMakeFiles/inOneWeekend.dir
+C:/Users/danie/Documents/Daniel/RC/Impossible/mc-voxel/tutorials/raytracing-weekend/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/danie/Documents/Daniel/RC/Impossible/mc-voxel/tutorials/raytracing-weekend/build/CMakeFiles/ZERO_CHECK.dir
