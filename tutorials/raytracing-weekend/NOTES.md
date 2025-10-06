@@ -64,6 +64,16 @@ This will only show up during the for loop then clear out when it's done generat
 
 "Don't worry — you'll have lots of time in the future to watch a slowly updating progress line as we expand our ray tracer." lulz
 
+## 3. vec3 Class
+
+Usually geometry and colors are 4D
+ - RGB also needs a transparency alpha
+ - 3D position needs a 4th for "homogenous coordinate"
+
+We will use the same class for colors and positions - can allow for silly things like subtract position from color but also LESS CODE.
+
+
+
 ## Future Reference
 
 https://github.com/RayTracing/raytracing.github.io/
