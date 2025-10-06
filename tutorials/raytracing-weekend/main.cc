@@ -17,6 +17,7 @@ int main() {
     // then specify the RGB triplets
     // rows are written out from top to bttom
     for (int j = 0; j < image_height; j++) {
+        std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
         // pixels are written out in rows
         // every row of pixels is written out left to right
         for (int i = 0; i < image_width; i++) {
@@ -31,4 +32,5 @@ int main() {
             std::cout << ir << ' ' << ig << ' ' << ib << '\n';
         }
     }
+    std::clog << "\rDone.                 \n";
 }
