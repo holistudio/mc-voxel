@@ -10,7 +10,11 @@ int main() {
     // Render
 
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    // "P3" means colors are in ASCII
+    // then specify number of COLUMNS FIRST, ROWS SECOND
+    // then specify the value for the max color (white)
 
+    // then specify the RGB triplets
     // rows are written out from top to bttom
     for (int j = 0; j < image_height; j++) {
         // pixels are written out in rows
