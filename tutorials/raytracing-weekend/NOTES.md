@@ -72,7 +72,21 @@ Usually geometry and colors are 4D
 
 We will use the same class for colors and positions - can allow for silly things like subtract position from color but also LESS CODE.
 
+## Rays, Camera, Background
 
+### 4.1 ray Class
+
+Compute what color is seen along a ray
+
+```
+P(t) = A + t * b
+```
+ - `P_vector` is a position along a line
+ - `A_vector` is the ray's origin
+ - `b_vector` is the ray's  direction
+ - `t_scalar` is a real number (`double`) used to "move along the ray"
+
+In C++ functions `ray::origin()` and `ray::direction()` both return an immutable reference to their members
 
 ## Future Reference
 
