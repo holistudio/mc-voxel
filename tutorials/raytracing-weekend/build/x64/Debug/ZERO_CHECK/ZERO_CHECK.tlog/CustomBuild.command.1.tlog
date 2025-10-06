@@ -1,0 +1,10 @@
+^C:\USERS\DANIE\DOCUMENTS\DANIEL\RC\IMPOSSIBLE\MC-VOXEL\TUTORIALS\RAYTRACING-WEEKEND\BUILD\CMAKEFILES\8786E22EF6E84689B4F8282EF9107F97\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/danie/Documents/Daniel/RC/Impossible/mc-voxel/tutorials/raytracing-weekend -BC:/Users/danie/Documents/Daniel/RC/Impossible/mc-voxel/tutorials/raytracing-weekend/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/danie/Documents/Daniel/RC/Impossible/mc-voxel/tutorials/raytracing-weekend/build/RenderImage.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
