@@ -54,6 +54,16 @@ then
 build\Release\inOneWeekend.exe > image.ppm
 ```
 
+### 2.3 Progress Tracker
+
+```
+std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+```
+
+This will only show up during the for loop then clear out when it's done generating the image
+
+"Don't worry — you'll have lots of time in the future to watch a slowly updating progress line as we expand our ray tracer." lulz
+
 ## Future Reference
 
 https://github.com/RayTracing/raytracing.github.io/
