@@ -38,6 +38,13 @@ function main() {
     // SCENE
     const scene = new THREE.Scene();
 
+
+    // TEXTURE
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load('resources/images/grass_top.png');
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+
     // BOX MESH
     // geometry
     const boxWidth = 1;
@@ -47,7 +54,8 @@ function main() {
 
     // material
     // const material = new THREE.MeshBasicMaterial({color: '#2bfba3'});
-    const material = new THREE.MeshPhongMaterial({color: '#2bfba3'});
+    // const material = new THREE.MeshPhongMaterial({color: '#2bfba3'});
+    const material = new THREE.MeshBasicMaterial({map: texture});
 
     // create the mesh
     const cube = new THREE.Mesh(geometry, material);
