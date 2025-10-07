@@ -1,6 +1,6 @@
 # Fundamentals
 
-Link: https://threejs.org/manual/#en/optimize-lots-of-objects
+Link: https://threejs.org/manual/#en/fundamentals
 
 three.js uses WebGL to draw 3D
  - three.js handles stuff so you don't have to deal with WebGL directly
