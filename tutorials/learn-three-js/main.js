@@ -13,6 +13,8 @@ function main() {
 
     // RENDERER
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas})
+    renderer.setAnimationLoop( animate );
+    document.body.appendChild( renderer.domElement );
 
 
     // CAMERA
@@ -24,6 +26,12 @@ function main() {
 
     // set position
     camera.position.z = 2;
+
+
+    // ORBIT CONTROLS
+    const controls = new OrbitControls( camera, renderer.domElement );
+
+    controls.update();
 
 
     // SCENE
@@ -59,17 +67,28 @@ function main() {
     renderer.render(scene, camera);
 
     // ANIMATION (OPTIONAL)
-    function render(time) {
-      time *= 0.001;  // convert time to seconds
+    // function render(time) {
+    //   time *= 0.001;  // convert time to seconds
      
-      cube.rotation.x = time;
-      cube.rotation.y = time;
+    //   cube.rotation.x = time;
+    //   cube.rotation.y = time;
      
-      renderer.render(scene, camera);
+    //   renderer.render(scene, camera);
      
-      requestAnimationFrame(render);
+    //   requestAnimationFrame(render);
+    // }
+    // requestAnimationFrame(render);
+    
+    function animate() {
+
+        requestAnimationFrame( animate );
+
+        // required if controls.enableDamping or controls.autoRotate are set to true
+        controls.update();
+
+        renderer.render( scene, camera );
+
     }
-    requestAnimationFrame(render);
 }
 
 main();
