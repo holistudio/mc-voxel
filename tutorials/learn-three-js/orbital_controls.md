@@ -2,6 +2,7 @@
 
 Links:
  - Docs: https://threejs.org/docs/?q=orbi#examples/en/controls/OrbitControls
+ - Rendering on Demand: https://threejs.org/manual/#en/rendering-on-demand
  - Example: https://threejs.org/examples/#misc_controls_orbit
  - Example code: https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_orbit.html
  - Installation: https://threejs.org/manual/#en/installation
@@ -21,5 +22,4 @@ Fundamentals says you need to add the add-on to the import map:
 ```
 
 But this doesn't seem necessary with Installation's NPM and Vite build tool I think...
-
 
