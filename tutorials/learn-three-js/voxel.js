@@ -53,8 +53,7 @@ function main() {
 
     // MESH / MODELS
 
-    // geometry
-
+    // VOXEL CLASS
     class VoxelWorld {
         constructor(cellSize) {
             this.cellSize = cellSize;
@@ -94,7 +93,7 @@ function main() {
         setVoxel(x, y, z, v) {
             let cell = this.getCellForVoxel(x, y, z);
             if (!cell) {
-            return;  // TODO: add a new cell?
+                return;  // TODO: add a new cell?
             }
             const voxelOffset = this.computeVoxelOffset(x, y, z);
             cell[voxelOffset] = v;
@@ -204,11 +203,43 @@ function main() {
         ],
     },
     ];
+    const cellSize = 32;
+    const world = new VoxelWorld(cellSize);
+
+    // create a hilly landscape
+
+    for (let y = 0; y < cellSize; ++y) {
+        for (let z = 0; z < cellSize; ++z) {
+            for (let x = 0; x < cellSize; ++x) {
+                const height = (Math.sin(x / cellSize * Math.PI * 4) + Math.sin(z / cellSize * Math.PI * 6)) * 20 + cellSize / 2;
+                if (y < height) {
+                    world.setVoxel(x, y, z, 1)
+                }
+            }
+        }
+    }
+
+    // geometry
+
+    const {positions, normals, indices} = world.generateGeometryDataForCell(0, 0, 0);
+    const geometry = new THREE.BufferGeometry();
+    
+    const positionNumComponents = 3;
+    const normalNumComponents = 3;
+
+    geometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
+    geometry.setAttribute(
+        'normal',
+        new THREE.BufferAttribute(new Float32Array(normals), normalNumComponents));
+    geometry.setIndex(indices);
 
     // material
     // const material = new THREE.MeshBasicMaterial({color: '#2bfba3'});
     // const material = new THREE.MeshPhongMaterial({color: '#2bfba3'});
     // const material = new THREE.MeshBasicMaterial({map: texture});
+    const material = new THREE.MeshLambertMaterial({color: 'green'});
 
     const top_mat = new THREE.MeshBasicMaterial({map: loadColorTexture('resources/images/grass_top.png')})
     const side_mat = new THREE.MeshBasicMaterial({map: loadColorTexture('resources/images/grass_side.png')})
@@ -224,6 +255,9 @@ function main() {
     ]
 
     // create the mesh
+    
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
 
     // add to a scene
