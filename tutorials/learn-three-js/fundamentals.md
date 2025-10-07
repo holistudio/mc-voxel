@@ -15,10 +15,19 @@ Big pieces:
  5. `Material` can reference `Texture`
  6. `Light` make things visible
 
- HTML needs:
+HTML needs:
   - `<script type="module"> ... </script>`
   - `<canvas id="c"></canvas>` inside `<body>`
 
+Javascript needs:
+
+```
+function main() {...}
+
+main();
+```
+ - NEED TO RUN THE FUNCTION DUHHHH
+ 
 ## Camera
 
 Camera parameters
@@ -36,4 +45,3 @@ Camera parameters
  4. Create a mesh with geometry and material
  5. Add mesh to scene
  6. Render the scene to a camera
- 
