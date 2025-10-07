@@ -88,6 +88,41 @@ P(t) = A + t * b
 
 In C++ functions `ray::origin()` and `ray::direction()` both return an immutable reference to their members
 
+### 4.2 Send rays into scene
+
+ 1. Compute the ray's direction from the "eye through the pixel"
+ 2. Determine when the ray intersects or hits an object
+ 3. Compute the color at the intersection point. 
+
+Always use a non-square image or window size, otherwise you'll confuse x and y
+
+```
+auto aspect_ratio = 16.0 / 9.0;
+int image_width = 400;
+
+// Calculate the image height, and ensure that it's at least 1.
+int image_height = int(image_width / aspect_ratio);
+image_height = (image_height < 1) ? 1 : image_height;
+
+// Viewport widths less than one are ok since they are real valued.
+auto viewport_height = 2.0;
+auto viewport_width = viewport_height * (double(image_width)/image_height);
+```
+
+ - Viewport height can be real-valued
+ - Image height cannot. It MUST be an integer
+ - `aspect_ratio` is the ideal ratio but may not be the actual ratio between `image_width` and `image_height`
+ - Image height has to be rounded down to the nearest integer, but that can increase the aspect ratio.
+
+Assume camera center is in the middle of the viewport. +Y is up, +Z forward, +X right directions.
+ - BUT our viewport/image coordinate is (0,0) on the upper left corner of the image and scans top to down, so Y increases as we go down the image.
+ - Let `Q` be the origin of the image coordinate system
+ - `V_u` goes from left to right at a step of `delta_u`
+ - `V_v` goes from top to bottom at a step of `delta_v`
+ - The first pixel coordinate is (`delta_u/2`,`delta_v/2`) from `Q`
+
+
+
 ## Future Reference
 
 https://github.com/RayTracing/raytracing.github.io/
