@@ -37,13 +37,22 @@ function main() {
     const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 
     // material
-    const material = new THREE.MeshBasicMaterial({color: '#2bfba3'});
+    // const material = new THREE.MeshBasicMaterial({color: '#2bfba3'});
+    const material = new THREE.MeshPhongMaterial({color: '#2bfba3'});
 
     // create the mesh
     const cube = new THREE.Mesh(geometry, material);
 
     // add to a scene
     scene.add(cube);
+
+
+    // LIGHTS
+    const color = 0xFFFFFF;
+    const intensity = 3;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(-1, 2, 4);
+    scene.add(light);
 
 
     // RENDER SCENE + CAMERA
