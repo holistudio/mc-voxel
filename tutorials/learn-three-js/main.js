@@ -13,4 +13,15 @@ function main() {
 
     // RENDERER
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas})
+
+
+    // CAMERA
+    const fov = 75;
+    const aspect = 2;  // the canvas default
+    const near = 0.1;
+    const far = 5;
+    const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+
+    // set position
+    camera.position.z = 2;
 }
