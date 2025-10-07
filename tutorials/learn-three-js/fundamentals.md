@@ -27,3 +27,13 @@ Camera parameters
  - near and far plane
 
 **NOTE:** this tutorial intends the camera to look down **-Z direction** with **+X direction** pointing to camera right
+
+## Scene
+
+ 1. Create the scene `new THREE.Scene()`
+ 2. Specify a geometry
+ 3. Specify a material
+ 4. Create a mesh with geometry and material
+ 5. Add mesh to scene
+ 6. Render the scene to a camera
+ 
