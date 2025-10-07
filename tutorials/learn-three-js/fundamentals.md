@@ -18,3 +18,12 @@ Big pieces:
  HTML needs:
   - `<script type="module"> ... </script>`
   - `<canvas id="c"></canvas>` inside `<body>`
+
+## Camera
+
+Camera parameters
+ - FOV
+ - aspect ratio
+ - near and far plane
+
+**NOTE:** this tutorial intends the camera to look down **-Z direction** with **+X direction** pointing to camera right
