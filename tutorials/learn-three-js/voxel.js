@@ -279,14 +279,27 @@ function main() {
 
 
     // LIGHTS
-    const color = 0xFFFFFF;
-    const intensity = 3;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(-1, 2, 4);
-    scene.add(light);
+    // const color = 0xFFFFFF;
+    // const intensity = 3;
+    // const light = new THREE.DirectionalLight(color, intensity);
+    // light.position.set(-1, 2, 4);
+    // scene.add(light);
 
-    const ambientLight = new THREE.AmbientLight( color );
-	scene.add( ambientLight );
+    // const ambientLight = new THREE.AmbientLight( color );
+	// scene.add( ambientLight );
+
+    function addLight( x, y, z ) {
+    
+        const color = 0xFFFFFF;
+        const intensity = 3;
+        const light = new THREE.DirectionalLight( color, intensity );
+        light.position.set( x, y, z );
+        scene.add( light );
+
+    }
+    
+    addLight( - 1, 2, 4 );
+    addLight( 1, - 1, - 2 );
 
 
     // RESPONSIVE DESIGN
