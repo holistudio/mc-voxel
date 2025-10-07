@@ -28,6 +28,7 @@ main();
 ```
  - NEED TO RUN THE FUNCTION DUHHHH
  
+Typical localhost: http://localhost:5173
 ## Camera
 
 Camera parameters
