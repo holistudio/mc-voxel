@@ -64,16 +64,6 @@ function main() {
             this.cellSliceSize = cellSize * cellSize;
             this.cell = new Uint8Array(cellSize * cellSize * cellSize);
         }
-        getCellForVoxel(x, y, z) {
-            const {cellSize} = this;
-            const cellX = Math.floor(x / cellSize);
-            const cellY = Math.floor(y / cellSize);
-            const cellZ = Math.floor(z / cellSize);
-            if (cellX !== 0 || cellY !== 0 || cellZ !== 0) {
-            return null
-            }
-            return this.cell;
-        }
         computeVoxelOffset(x, y, z) {
             const {cellSize, cellSliceSize} = this;
             const voxelX = THREE.MathUtils.euclideanModulo(x, cellSize) | 0;
@@ -84,18 +74,28 @@ function main() {
                                 voxelX;
             return voxelOffset;
         }
+        getCellForVoxel(x, y, z) {
+            const {cellSize} = this;
+            const cellX = Math.floor(x / cellSize);
+            const cellY = Math.floor(y / cellSize);
+            const cellZ = Math.floor(z / cellSize);
+            if (cellX !== 0 || cellY !== 0 || cellZ !== 0) {
+                return null
+            }
+            return this.cell;
+        }
         getVoxel(x, y, z) {
             // given x,y,z coordinate
             // identify the voxel that point is inside of
             const cell = this.getCellForVoxel(x, y, z);
             if (!cell) {
-            return 0;
+                return 0;
             }
             const voxelOffset = this.computeVoxelOffset(x, y, z);
             return cell[voxelOffset];
         }
         setVoxel(x, y, z, v) {
-            let cell = this.getCellForVoxel(x, y, z);
+            const cell = this.getCellForVoxel(x, y, z);
             if (!cell) {
                 return;  // TODO: add a new cell?
             }
@@ -125,7 +125,7 @@ function main() {
                                 // check voxel in the corresponding direction of
                                 // each face
                                 const neighbor = this.getVoxel(
-                                    voxelX + dir[0],
+                                    voxelX + dir[ 0 ],
                                     voxelY + dir[1],
                                     voxelZ + dir[2]);
                                 if (!neighbor) {
