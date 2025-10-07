@@ -30,7 +30,7 @@ function main() {
 
     // ORBIT CONTROLS
     const controls = new OrbitControls( camera, renderer.domElement );
-    controls.enableDamping = true;
+    // controls.enableDamping = true;
     controls.target.set(0, 0, 0);
     controls.update();
 
@@ -109,9 +109,9 @@ function main() {
     // requestAnimationFrame(render);
 
     // RENDER ON DEMAND
-    let renderRequested = false;
+    // let renderRequested = false;
     function render() {
-        renderRequested = false;
+        // renderRequested = false;
 
         if ( resizeRendererToDisplaySize( renderer ) ) {
             const canvas = renderer.domElement;
@@ -129,8 +129,9 @@ function main() {
             requestAnimationFrame(render);
         }
     }
-    controls.addEventListener('change', requestRenderIfNotRequested);
-    // window.addEventListener( 'resize', render );
+    controls.addEventListener('change', render);
+    // controls.addEventListener('change', requestRenderIfNotRequested);
+    window.addEventListener( 'resize', render );
     // function animate() {
 
     //     requestAnimationFrame( animate );
