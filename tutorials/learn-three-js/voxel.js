@@ -10,8 +10,13 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 // VOXEL CLASS
 class VoxelWorld {
-    constructor(cellSize) {
-        this.cellSize = cellSize;
+    
+    constructor(options) {
+        this.cellSize = options.cellSize;
+        this.tileSize = options.tileSize;
+        this.tileTextureWidth = options.tileTextureWidth;
+        this.tileTextureHeight = options.tileTextureHeight;
+        const {cellSize} = this;
         this.cellSliceSize = cellSize * cellSize;
         this.cell = new Uint8Array(cellSize * cellSize * cellSize);
     }
@@ -54,9 +59,10 @@ class VoxelWorld {
         cell[voxelOffset] = v;
     }
     generateGeometryDataForCell(cellX, cellY, cellZ) {
-        const {cellSize} = this;
+        const {cellSize, tileSize, tileTextureWidth, tileTextureHeight} = this;
         const positions = [];
         const normals = [];
+        const uvs = [];
         const indices = [];
         const startX = cellX * cellSize;
         const startY = cellY * cellSize;
@@ -71,8 +77,9 @@ class VoxelWorld {
                     const voxelX = startX + x;
                     const voxel = this.getVoxel(voxelX, voxelY, voxelZ);
                     if (voxel) {
+                        const uvVoxel = voxel - 1;  // voxel 0 is sky so for UVs we start at 0
                         // check all faces
-                        for (const {dir, corners} of VoxelWorld.faces) {
+                        for (const {dir, corners, uvRow} of VoxelWorld.faces) {
                             // check voxel in the corresponding direction of
                             // each face
                             const neighbor = this.getVoxel(
@@ -83,10 +90,11 @@ class VoxelWorld {
                                 // if there are no adjacent voxels
                                 // the face is exposed and should be shown
                                 const ndx = positions.length / 3; // TODO: ??
-                                for (const pos of corners) {
+                                for (const {pos, uv} of corners) {
                                     // push positions to list
                                     positions.push(pos[0] + x, pos[1] + y, pos[2] + z);
                                     normals.push(...dir); // TODO: ?? what's the ...?
+                                    uvs.push((uvVoxel +   uv[0]) * tileSize / tileTextureWidth, 1 - (uvRow + 1 - uv[1]) * tileSize / tileTextureHeight);
                                 }
                                 indices.push(
                                     ndx, ndx + 1, ndx + 2,
@@ -98,67 +106,72 @@ class VoxelWorld {
                 }
             }
         }
-        return {positions, normals, indices};
+        return {positions, normals, uvs, indices};
     }
 }
 
 VoxelWorld.faces = [
-    { // left
-        dir: [ -1,  0,  0, ],
-        corners: [
-        [ 0, 1, 0 ],
-        [ 0, 0, 0 ],
-        [ 0, 1, 1 ],
-        [ 0, 0, 1 ],
-        ],
-    },
-    { // right
-        dir: [  1,  0,  0, ],
-        corners: [
-        [ 1, 1, 1 ],
-        [ 1, 0, 1 ],
-        [ 1, 1, 0 ],
-        [ 1, 0, 0 ],
-        ],
-    },
-    { // bottom
-        dir: [  0, -1,  0, ],
-        corners: [
-        [ 1, 0, 1 ],
-        [ 0, 0, 1 ],
-        [ 1, 0, 0 ],
-        [ 0, 0, 0 ],
-        ],
-    },
-    { // top
-        dir: [  0,  1,  0, ],
-        corners: [
-        [ 0, 1, 1 ],
-        [ 1, 1, 1 ],
-        [ 0, 1, 0 ],
-        [ 1, 1, 0 ],
-        ],
-    },
-    { // back
-        dir: [  0,  0, -1, ],
-        corners: [
-        [ 1, 0, 0 ],
-        [ 0, 0, 0 ],
-        [ 1, 1, 0 ],
-        [ 0, 1, 0 ],
-        ],
-    },
-    { // front
-        dir: [  0,  0,  1, ],
-        corners: [
-        [ 0, 0, 1 ],
-        [ 1, 0, 1 ],
-        [ 0, 1, 1 ],
-        [ 1, 1, 1 ],
-        ],
-    },
+	{ // left
+		uvRow: 0,
+		dir: [ - 1, 0, 0, ],
+		corners: [
+			{ pos: [ 0, 1, 0 ], uv: [ 0, 1 ], },
+			{ pos: [ 0, 0, 0 ], uv: [ 0, 0 ], },
+			{ pos: [ 0, 1, 1 ], uv: [ 1, 1 ], },
+			{ pos: [ 0, 0, 1 ], uv: [ 1, 0 ], },
+		],
+	},
+	{ // right
+		uvRow: 0,
+		dir: [ 1, 0, 0, ],
+		corners: [
+			{ pos: [ 1, 1, 1 ], uv: [ 0, 1 ], },
+			{ pos: [ 1, 0, 1 ], uv: [ 0, 0 ], },
+			{ pos: [ 1, 1, 0 ], uv: [ 1, 1 ], },
+			{ pos: [ 1, 0, 0 ], uv: [ 1, 0 ], },
+		],
+	},
+	{ // bottom
+		uvRow: 1,
+		dir: [ 0, - 1, 0, ],
+		corners: [
+			{ pos: [ 1, 0, 1 ], uv: [ 1, 0 ], },
+			{ pos: [ 0, 0, 1 ], uv: [ 0, 0 ], },
+			{ pos: [ 1, 0, 0 ], uv: [ 1, 1 ], },
+			{ pos: [ 0, 0, 0 ], uv: [ 0, 1 ], },
+		],
+	},
+	{ // top
+		uvRow: 2,
+		dir: [ 0, 1, 0, ],
+		corners: [
+			{ pos: [ 0, 1, 1 ], uv: [ 1, 1 ], },
+			{ pos: [ 1, 1, 1 ], uv: [ 0, 1 ], },
+			{ pos: [ 0, 1, 0 ], uv: [ 1, 0 ], },
+			{ pos: [ 1, 1, 0 ], uv: [ 0, 0 ], },
+		],
+	},
+	{ // back
+		uvRow: 0,
+		dir: [ 0, 0, - 1, ],
+		corners: [
+			{ pos: [ 1, 0, 0 ], uv: [ 0, 0 ], },
+			{ pos: [ 0, 0, 0 ], uv: [ 1, 0 ], },
+			{ pos: [ 1, 1, 0 ], uv: [ 0, 1 ], },
+			{ pos: [ 0, 1, 0 ], uv: [ 1, 1 ], },
+		],
+	},
+	{ // front
+		uvRow: 0,
+		dir: [ 0, 0, 1, ],
+		corners: [
+			{ pos: [ 0, 0, 1 ], uv: [ 0, 0 ], },
+			{ pos: [ 1, 0, 1 ], uv: [ 1, 0 ], },
+			{ pos: [ 0, 1, 1 ], uv: [ 0, 1 ], },
+			{ pos: [ 1, 1, 1 ], uv: [ 1, 1 ], },
+		],
+	},
 ];
-
 function main() {
     const canvas = document.querySelector('#c');
 
@@ -195,13 +208,24 @@ function main() {
 
 
     // TEXTURE
-    const loader = new THREE.TextureLoader();
+    // const loader = new THREE.TextureLoader();
 
     function loadColorTexture(path) {
         const texture = loader.load(path);
         texture.colorSpace = THREE.SRGBColorSpace;
         return texture;
     }
+
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load('resources/images/voxel_texture.png', render);
+    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = THREE.NearestFilter;
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    const tileSize = 298;
+    const tileTextureWidth = 298;
+    const tileTextureHeight = 1225;
+    
 
     
 
@@ -210,7 +234,13 @@ function main() {
 
     
     
-    const world = new VoxelWorld(cellSize);
+    // const world = new VoxelWorld(cellSize);
+    const world = new VoxelWorld({
+      cellSize,
+      tileSize,
+      tileTextureWidth,
+      tileTextureHeight,
+    });
 
     // create a hilly landscape
 
@@ -235,11 +265,13 @@ function main() {
 
     // geometry
 
-    const {positions, normals, indices} = world.generateGeometryDataForCell(0, 0, 0);
+    // const {positions, normals, indices} = world.generateGeometryDataForCell(0, 0, 0);
+    const {positions, normals, uvs, indices} = world.generateGeometryDataForCell(0, 0, 0);
     const geometry = new THREE.BufferGeometry();
     
     const positionNumComponents = 3;
     const normalNumComponents = 3;
+    const uvNumComponents = 2;
 
     geometry.setAttribute(
         'position',
@@ -247,13 +279,22 @@ function main() {
     geometry.setAttribute(
         'normal',
         new THREE.BufferAttribute(new Float32Array(normals), normalNumComponents));
+    geometry.setAttribute(
+        'uv',
+        new THREE.BufferAttribute(new Float32Array(uvs), uvNumComponents));
     geometry.setIndex(indices);
 
     // material
     // const material = new THREE.MeshBasicMaterial({color: '#2bfba3'});
     // const material = new THREE.MeshPhongMaterial({color: '#2bfba3'});
     // const material = new THREE.MeshBasicMaterial({map: texture});
-    const material = new THREE.MeshLambertMaterial({color: 'green'});
+    // const material = new THREE.MeshLambertMaterial({color: 'green'});
+    const material = new THREE.MeshLambertMaterial({
+        map: texture,
+        side: THREE.DoubleSide,
+        alphaTest: 0.1,
+        transparent: true,
+    });
 
     const top_mat = new THREE.MeshBasicMaterial({map: loadColorTexture('resources/images/grass_top.png')})
     const side_mat = new THREE.MeshBasicMaterial({map: loadColorTexture('resources/images/grass_side.png')})
