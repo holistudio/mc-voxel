@@ -1,3 +1,4 @@
+// BY CHATGPT and some manual tweaks (all dirt, all grass, or mix)
 // p5.js sketch
 // 16x16 checkerboard of small "Minecraft-like" grass/dirt pixel-art blocks.
 // Each tile is a 16x16 pixel texture scaled to the canvas.
