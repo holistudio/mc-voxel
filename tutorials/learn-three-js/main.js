@@ -41,8 +41,14 @@ function main() {
 
     // TEXTURE
     const loader = new THREE.TextureLoader();
-    const texture = loader.load('resources/images/grass_top.png');
-    texture.colorSpace = THREE.SRGBColorSpace;
+
+    function loadColorTexture(path) {
+        const texture = loader.load(path);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        return texture;
+    }
+
+    
 
 
     // BOX MESH
@@ -55,10 +61,24 @@ function main() {
     // material
     // const material = new THREE.MeshBasicMaterial({color: '#2bfba3'});
     // const material = new THREE.MeshPhongMaterial({color: '#2bfba3'});
-    const material = new THREE.MeshBasicMaterial({map: texture});
+    // const material = new THREE.MeshBasicMaterial({map: texture});
+
+    const top_mat = new THREE.MeshBasicMaterial({map: loadColorTexture('resources/images/grass_top.png')})
+    const side_mat = new THREE.MeshBasicMaterial({map: loadColorTexture('resources/images/grass_side.png')})
+    const bot_mat = new THREE.MeshBasicMaterial({map: loadColorTexture('resources/images/grass_bottom.png')})
+    const materials = [
+         side_mat,
+         side_mat,
+         top_mat,
+         bot_mat,
+         side_mat,
+         side_mat,
+         
+    ]
 
     // create the mesh
-    const cube = new THREE.Mesh(geometry, material);
+    // const cube = new THREE.Mesh(geometry, material);
+    const cube = new THREE.Mesh(geometry, materials);
 
     // add to a scene
     scene.add(cube);
