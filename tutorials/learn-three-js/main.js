@@ -7,3 +7,10 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const controls = new OrbitControls( camera, renderer.domElement );
 const loader = new GLTFLoader();
+
+function main() {
+    const canvas = document.querySelector('#c');
+
+    // RENDERER
+    const renderer = new THREE.WebGLRenderer({antialias: true, canvas})
+}
