@@ -68,7 +68,7 @@ class VoxelWorld {
             for (let z = 0; z < cellSize; ++z) {
                 const voxelZ = startZ + z;
                 for (let x = 0; x < cellSize; ++x) {
-                    const voxelX = startX + z;
+                    const voxelX = startX + x;
                     const voxel = this.getVoxel(voxelX, voxelY, voxelZ);
                     if (voxel) {
                         // check all faces
