@@ -44,4 +44,10 @@ function main() {
 
     // add to a scene
     scene.add(cube);
+
+
+    // RENDER SCENE + CAMERA
+    renderer.render(scene, camera);
 }
+
+main();
