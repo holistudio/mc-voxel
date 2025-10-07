@@ -51,12 +51,11 @@ function main() {
     
 
 
-    // BOX MESH
+    // MESH / MODELS
+
     // geometry
-    const boxWidth = 1;
-    const boxHeight = 1;
-    const boxDepth = 1;
-    const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+
+    
 
     // material
     // const material = new THREE.MeshBasicMaterial({color: '#2bfba3'});
@@ -77,11 +76,10 @@ function main() {
     ]
 
     // create the mesh
-    // const cube = new THREE.Mesh(geometry, material);
-    const cube = new THREE.Mesh(geometry, materials);
+
 
     // add to a scene
-    scene.add(cube);
+
 
 
     // LIGHTS
@@ -117,24 +115,6 @@ function main() {
     // RENDER SCENE + CAMERA
     renderer.render(scene, camera);
 
-    // ANIMATION (OPTIONAL)
-    // function render(time) {
-    //   time *= 0.001;  // convert time to seconds
-
-    //   if ( resizeRendererToDisplaySize( renderer ) ) {
-    //     const canvas = renderer.domElement;
-    //     camera.aspect = canvas.clientWidth / canvas.clientHeight;
-    //     camera.updateProjectionMatrix();
-    //     }
-     
-    //   cube.rotation.x = time;
-    //   cube.rotation.y = time;
-     
-    //   renderer.render(scene, camera);
-     
-    //   requestAnimationFrame(render);
-    // }
-    // requestAnimationFrame(render);
 
     // RENDER ON DEMAND
     // let renderRequested = false;
@@ -161,16 +141,6 @@ function main() {
     // controls.addEventListener('change', requestRenderIfNotRequested);
     window.addEventListener( 'resize', render );
 
-    // function animate() {
-
-    //     requestAnimationFrame( animate );
-
-    //     // required if controls.enableDamping or controls.autoRotate are set to true
-    //     controls.update();
-
-    //     renderer.render( scene, camera );
-
-    // }
 }
 
 main();
