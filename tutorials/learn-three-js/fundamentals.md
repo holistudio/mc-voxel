@@ -14,3 +14,7 @@ Big pieces:
  4. `Mesh` objects consist of  `Geometry` and `Material`
  5. `Material` can reference `Texture`
  6. `Light` make things visible
+
+ HTML needs:
+  - `<script type="module"> ... </script>`
+  - `<canvas id="c"></canvas>` inside `<body>`
