@@ -13,8 +13,8 @@ function main() {
 
     // RENDERER
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas})
-    renderer.setAnimationLoop( animate );
-    document.body.appendChild( renderer.domElement );
+    // renderer.setAnimationLoop( animate );
+    // document.body.appendChild( renderer.domElement );
 
 
     // CAMERA
@@ -29,9 +29,9 @@ function main() {
 
 
     // ORBIT CONTROLS
-    const controls = new OrbitControls( camera, renderer.domElement );
-
-    controls.update();
+    // const controls = new OrbitControls( camera, renderer.domElement );
+    // controls.target.set(0, 0, 0);
+    // controls.update();
 
 
     // SCENE
@@ -66,32 +66,57 @@ function main() {
 	scene.add( ambientLight );
 
 
+    // RESPONSIVE DESIGN
+
+    function resizeRendererToDisplaySize( renderer ) {
+
+		const canvas = renderer.domElement;
+		const pixelRatio = window.devicePixelRatio;
+		const width = Math.floor( canvas.clientWidth * pixelRatio );
+		const height = Math.floor( canvas.clientHeight * pixelRatio );
+		const needResize = canvas.width !== width || canvas.height !== height;
+		if ( needResize ) {
+
+			renderer.setSize( width, height, false );
+
+		}
+
+		return needResize;
+
+	}
+
     // RENDER SCENE + CAMERA
     renderer.render(scene, camera);
 
     // ANIMATION (OPTIONAL)
-    // function render(time) {
-    //   time *= 0.001;  // convert time to seconds
+    function render(time) {
+      time *= 0.001;  // convert time to seconds
+
+      if ( resizeRendererToDisplaySize( renderer ) ) {
+        const canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+        }
      
-    //   cube.rotation.x = time;
-    //   cube.rotation.y = time;
+      cube.rotation.x = time;
+      cube.rotation.y = time;
      
-    //   renderer.render(scene, camera);
+      renderer.render(scene, camera);
      
-    //   requestAnimationFrame(render);
-    // }
-    // requestAnimationFrame(render);
-
-    function animate() {
-
-        requestAnimationFrame( animate );
-
-        // required if controls.enableDamping or controls.autoRotate are set to true
-        controls.update();
-
-        renderer.render( scene, camera );
-
+      requestAnimationFrame(render);
     }
+    requestAnimationFrame(render);
+
+    // function animate() {
+
+    //     requestAnimationFrame( animate );
+
+    //     // required if controls.enableDamping or controls.autoRotate are set to true
+    //     controls.update();
+
+    //     renderer.render( scene, camera );
+
+    // }
 }
 
 main();
