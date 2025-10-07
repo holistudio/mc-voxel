@@ -62,6 +62,9 @@ function main() {
     light.position.set(-1, 2, 4);
     scene.add(light);
 
+    const ambientLight = new THREE.AmbientLight( color );
+	scene.add( ambientLight );
+
 
     // RENDER SCENE + CAMERA
     renderer.render(scene, camera);
@@ -78,7 +81,7 @@ function main() {
     //   requestAnimationFrame(render);
     // }
     // requestAnimationFrame(render);
-    
+
     function animate() {
 
         requestAnimationFrame( animate );
