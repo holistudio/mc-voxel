@@ -11,6 +11,10 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 function main() {
     const canvas = document.querySelector('#c');
 
+    // VOXEL hyperparameter
+
+    const cellSize = 32;
+
     // RENDERER
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas})
     // renderer.setAnimationLoop( animate );
@@ -21,17 +25,17 @@ function main() {
     const fov = 75;
     const aspect = 2;  // the canvas default
     const near = 0.1;
-    const far = 5;
+    const far = 1000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
     // set position
-    camera.position.z = 2;
+    camera.position.set( - cellSize * .3, cellSize * .8, - cellSize * .3 );
 
 
     // ORBIT CONTROLS
     const controls = new OrbitControls( camera, renderer.domElement );
     // controls.enableDamping = true;
-    controls.target.set(0, 0, 0);
+    controls.target.set( cellSize / 2, cellSize / 3, cellSize / 2 );
     controls.update();
 
 
@@ -203,21 +207,29 @@ function main() {
         ],
     },
     ];
-    const cellSize = 32;
+    
     const world = new VoxelWorld(cellSize);
 
     // create a hilly landscape
 
-    for (let y = 0; y < cellSize; ++y) {
-        for (let z = 0; z < cellSize; ++z) {
-            for (let x = 0; x < cellSize; ++x) {
-                const height = (Math.sin(x / cellSize * Math.PI * 4) + Math.sin(z / cellSize * Math.PI * 6)) * 20 + cellSize / 2;
-                if (y < height) {
-                    world.setVoxel(x, y, z, 1)
-                }
-            }
-        }
-    }
+	for ( let y = 0; y < cellSize; ++ y ) {
+
+		for ( let z = 0; z < cellSize; ++ z ) {
+
+			for ( let x = 0; x < cellSize; ++ x ) {
+
+				const height = ( Math.sin( x / cellSize * Math.PI * 2 ) + Math.sin( z / cellSize * Math.PI * 3 ) ) * ( cellSize / 6 ) + ( cellSize / 2 );
+				if ( y < height ) {
+
+					world.setVoxel( x, y, z, 1 );
+
+				}
+
+			}
+
+		}
+
+	}
 
     // geometry
 
