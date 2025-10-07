@@ -24,4 +24,24 @@ function main() {
 
     // set position
     camera.position.z = 2;
+
+
+    // SCENE
+    const scene = new THREE.Scene();
+
+    // BOX MESH
+    // geometry
+    const boxWidth = 1;
+    const boxHeight = 1;
+    const boxDepth = 1;
+    const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+
+    // material
+    const material = new THREE.MeshBasicMaterial({color: '#2bfba3'});
+
+    // create the mesh
+    const cube = new THREE.Mesh(geometry, material);
+
+    // add to a scene
+    scene.add(cube);
 }
