@@ -29,9 +29,10 @@ function main() {
 
 
     // ORBIT CONTROLS
-    // const controls = new OrbitControls( camera, renderer.domElement );
-    // controls.target.set(0, 0, 0);
-    // controls.update();
+    const controls = new OrbitControls( camera, renderer.domElement );
+    controls.enableDamping = true;
+    controls.target.set(0, 0, 0);
+    controls.update();
 
 
     // SCENE
@@ -89,24 +90,47 @@ function main() {
     renderer.render(scene, camera);
 
     // ANIMATION (OPTIONAL)
-    function render(time) {
-      time *= 0.001;  // convert time to seconds
+    // function render(time) {
+    //   time *= 0.001;  // convert time to seconds
 
-      if ( resizeRendererToDisplaySize( renderer ) ) {
-        const canvas = renderer.domElement;
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
+    //   if ( resizeRendererToDisplaySize( renderer ) ) {
+    //     const canvas = renderer.domElement;
+    //     camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    //     camera.updateProjectionMatrix();
+    //     }
+     
+    //   cube.rotation.x = time;
+    //   cube.rotation.y = time;
+     
+    //   renderer.render(scene, camera);
+     
+    //   requestAnimationFrame(render);
+    // }
+    // requestAnimationFrame(render);
+
+    // RENDER ON DEMAND
+    let renderRequested = false;
+    function render() {
+        renderRequested = false;
+
+        if ( resizeRendererToDisplaySize( renderer ) ) {
+            const canvas = renderer.domElement;
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
         }
      
-      cube.rotation.x = time;
-      cube.rotation.y = time;
-     
       renderer.render(scene, camera);
-     
-      requestAnimationFrame(render);
     }
-    requestAnimationFrame(render);
+    render();
 
+    function requestRenderIfNotRequested() {
+        if (!renderRequested) {
+            renderRequested = true;
+            requestAnimationFrame(render);
+        }
+    }
+    controls.addEventListener('change', requestRenderIfNotRequested);
+    // window.addEventListener( 'resize', render );
     // function animate() {
 
     //     requestAnimationFrame( animate );
